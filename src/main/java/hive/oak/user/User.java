@@ -1,9 +1,6 @@
 package hive.oak.user;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,14 +9,18 @@ public class User {
   @Id
   @GeneratedValue
   private UUID id;
+  @Column(unique = true)
   private String username;
   private String password;
+  @Column(unique = true)
   private String email;
   @Embedded
   private Name name;
   @Embedded
   private Cpf cpf;
   private Date birthDate;
+  private String college;
+  private UUID hiveUser;
 
   public User() {
   }
@@ -31,7 +32,8 @@ public class User {
       final String email,
       final Name name,
       final Cpf cpf,
-      final Date birthDate
+      final Date birthDate,
+      final String college
   ) {
     this.id = id;
     this.username = username;
@@ -40,6 +42,7 @@ public class User {
     this.name = name;
     this.cpf = cpf;
     this.birthDate = birthDate;
+    this.college = college;
   }
 
   public UUID getId() {
@@ -96,5 +99,21 @@ public class User {
 
   public void setBirthDate(final Date birthDate) {
     this.birthDate = birthDate;
+  }
+
+  public String getCollege() {
+    return college;
+  }
+
+  public void setCollege(final String college) {
+    this.college = college;
+  }
+
+  public UUID getHiveUser() {
+    return hiveUser;
+  }
+
+  public void setHiveUser(final UUID hiveUser) {
+    this.hiveUser = hiveUser;
   }
 }
