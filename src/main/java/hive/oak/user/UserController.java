@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,7 +42,7 @@ public class UserController {
     final var user = userRepository.findById(id);
 
     if (!user.isPresent()) {
-      throw new RuntimeException("User not found");
+      throw new UserNotFoundException();
     }
 
     final var u = user.get();
@@ -49,10 +51,10 @@ public class UserController {
         u.getId(),
         u.getUsername(),
         u.getName().getFirstName(),
-        u.getName().getFirstName(),
+        u.getName().getLastName(),
         u.getEmail(),
         u.getCpf().getValue(),
-        u.getBirthDate().toString(),
+        new SimpleDateFormat("dd/MM/yyyy").format(u.getBirthDate()),
         u.getCollege()
     );
   }
@@ -72,13 +74,22 @@ public class UserController {
       );
 
       if (userRepository.existsByUsername(user.getUsername())) {
-        throw new RuntimeException("Username already in use");
+        throw new ResponseStatusException(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "Username already in use"
+        );
       }
       if (userRepository.existsByEmail(user.getEmail())) {
-        throw new RuntimeException("Email already in use");
+        throw new ResponseStatusException(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "Email already in use"
+        );
       }
       if (userRepository.existsByCpf(user.getCpf())) {
-        throw new RuntimeException("CPF already in use");
+        throw new ResponseStatusException(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "CPF already in use"
+        );
       }
 
       final var headers = new HttpHeaders();
@@ -97,12 +108,12 @@ public class UserController {
     }
   }
 
-  @DeleteMapping("{id")
+  @DeleteMapping("{id}")
   public void deleteUser(@PathVariable final UUID id) {
     final var user = userRepository.findById(id);
 
     if (!user.isPresent()) {
-      throw new RuntimeException("User not found");
+      throw new UserNotFoundException();
     }
 
     final var u = user.get();
