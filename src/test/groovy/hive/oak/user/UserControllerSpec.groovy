@@ -205,7 +205,7 @@ class UserControllerSpec extends Specification {
                 .andExpect(status().isNotFound())
     }
 
-    def "Given user with provided ID exists when user is deleted, then 200 is received and JSON is correct"() {
+    def "Given user with provided ID exists when user is deleted, then 200 is received"() {
         given:
         final def id = UUID.randomUUID()
         final def birthDate = new Date()
