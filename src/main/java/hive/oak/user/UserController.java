@@ -37,6 +37,11 @@ public class UserController {
     this.restTemplate = restTemplate;
   }
 
+  @GetMapping
+  public Iterable<User> getAll() {
+    return userRepository.findAll();
+  }
+
   @GetMapping("/{id}")
   public UserJson getUser(@PathVariable final UUID id) {
     final var user = userRepository.findById(id);
