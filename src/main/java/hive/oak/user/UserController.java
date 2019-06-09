@@ -110,7 +110,7 @@ public class UserController {
     }
   }
 
-  @DeleteMapping("{id}")
+  @DeleteMapping("/{id}")
   public void deleteUser(@PathVariable final UUID id) {
     final var user = userRepository.findById(id);
 
