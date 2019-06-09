@@ -1,17 +1,15 @@
 package hive.oak.user;
 
-import java.util.UUID;
-
 public class HiveUser {
-  private UUID id;
+  private Integer id;
   private String username;
   private String password;
 
-  public UUID getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(final UUID id) {
+  public void setId(final Integer id) {
     this.id = id;
   }
 

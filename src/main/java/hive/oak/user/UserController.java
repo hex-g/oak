@@ -23,7 +23,7 @@ public class UserController {
   private final UserRepository userRepository;
   private final BCryptPasswordEncoder passwordEncoder;
   private final RestTemplate restTemplate;
-  @Value("hive.oak.hive-api-url")
+  @Value("${hive.oak.hive-api-url}")
   private String hiveApiUrl;
 
   @Autowired
@@ -91,6 +91,8 @@ public class UserController {
             "CPF already in use"
         );
       }
+
+      System.err.println(hiveApiUrl);
 
       final var headers = new HttpHeaders();
       headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

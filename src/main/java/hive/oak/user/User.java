@@ -20,7 +20,7 @@ public class User {
   private Cpf cpf;
   private Date birthDate;
   private String college;
-  private UUID hiveUser;
+  private Integer hiveUser;
 
   public User() {
   }
@@ -109,11 +109,11 @@ public class User {
     this.college = college;
   }
 
-  public UUID getHiveUser() {
+  public Integer getHiveUser() {
     return hiveUser;
   }
 
-  public void setHiveUser(final UUID hiveUser) {
+  public void setHiveUser(final Integer hiveUser) {
     this.hiveUser = hiveUser;
   }
 }
